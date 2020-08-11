@@ -1,0 +1,25 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fiberhome.dao.EmployeeDao">
+
+    <insert id="insertEmployee" parameterType="com.fiberhome.model.Employee">
+        insert into employeeInfo(name, employeeId,role,salary)values<foreach collection="employee" item="Employee"
+        index="index" open="(" separator="),("  close=")"> #{Employee.name},#{Employee.employeeId},#{Employee.role},#{Employee.salary}</foreach>
+
+    </insert>
+
+    <update id="updateEmployeeRecord" parameterType="com.fiberhome.model.Employee">
+        update employeeInfo set role=#{role},salary=#{salary} where employeeId=#{employeeId}
+    </update>
+    <delete id="deleteEmployeeById" parameterType="long">
+        delete from employeeInfo where employeeId=#{id}
+    </delete>
+    <resultMap id="employeeRecordsMap" type="Employee">
+     <result property="name" column="name"/>
+        <result property="empId" column="empId"/>
+        <result property="role" column="role"/>
+        <result property="salary" column="salary"/>
+    </resultMap>
+    <select id="getEmployeeRecords" resultMap="employeeRecordsMap" resultType="com.fiberhome.model.Employee">
+         select * from employeeInfo
+    </select>
+  </mapper>
